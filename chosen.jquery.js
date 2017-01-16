@@ -390,7 +390,6 @@
             var ar_regex = [];
             for (_s = 0, _lens = search_split.length; _s < _lens; _s++) {
                 ar_regex[_s] = new RegExp(search_split[_s], "i");
-                //console.log(_s + ' = ' + ar_regex[_s]);
             }
 
 
@@ -696,6 +695,7 @@
                 chosen: this
             });
         };
+        
 
         Chosen.prototype.register_observers = function () {
             var _this = this;
@@ -754,6 +754,21 @@
             });
             this.form_field_jq.bind("chosen:clear.chosen", function (evt) {
                 _this.results_reset(evt);
+            });
+            this.form_field_jq.bind("chosen:no_result.chosen", function (evt) {
+                /**
+                 * Este é um trigger que dispara o evento "no_results"
+                 */
+                _this.form_field_jq.trigger("chosen:no_results", {
+                    chosen: this
+                });
+            });
+            this.form_field_jq.bind("chosen:grifa_busca.chosen", function (evt) {
+                /**
+                 * Este é um trigger que seleciona a busca, para AJAX
+                 */
+                console.log('CHOSEN2: ATUALIZANDO TEXTO.');
+                _this.winnow_results(); // grifa a busca
             });
             this.search_field.bind('blur.chosen', function (evt) {
                 _this.input_blur(evt);

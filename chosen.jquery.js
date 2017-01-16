@@ -733,6 +733,9 @@
             this.form_field_jq.bind("chosen:close.chosen", function (evt) {
                 _this.input_blur(evt);
             });
+            this.form_field_jq.bind("chosen:clear.chosen", function (evt) {
+                _this.results_reset(evt);
+            });
             this.search_field.bind('blur.chosen', function (evt) {
                 _this.input_blur(evt);
             });

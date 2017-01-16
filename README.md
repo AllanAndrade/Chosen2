@@ -1,8 +1,6 @@
 # Chosen2
 Fork do original disponível em: https://github.com/harvesthq/chosen
 
-Exemplo (sem imagens): https://jsfiddle.net/nhtdrL8d/2/
-
 Alterações em chosen.jquery.js para ignorar caracteres acentuados... baseado em:
 - https://github.com/harvesthq/chosen/issues/536 
 - http://fiddle.jshell.net/whqb5/1/ e 

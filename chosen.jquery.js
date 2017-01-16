@@ -382,7 +382,7 @@
             escapedSearchText = searchText.replace(/[-[\]{}()*+?.,\\^$|#]/g, "\\$&"); // escapa caracteres especiais
             escapedSearchText = this.stringEscaped(escapedSearchText); // <--- IGNORAR ACENTOS 
             search_split = escapedSearchText.split(' ');
-            escapedSearchText = escapedSearchText.replace(' ', '([ \\wà-ú]+)');// espaço vira curinga
+            escapedSearchText = escapedSearchText.replace(/[ ]+/g, '(.+)');// espaço vira curinga
             zregex = new RegExp(escapedSearchText, 'i');
             regex = this.get_search_regex(escapedSearchText);
             _ref = this.results_data;
@@ -392,8 +392,9 @@
                 ar_regex[_s] = new RegExp(search_split[_s], "i");
             }
 
-
+            // console.clear();
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+                // console.log('for: ' + _i);
                 option = _ref[_i];
                 option.search_match = false;
                 results_group = null;
@@ -411,7 +412,12 @@
                     }
                     option.search_text = option.group ? option.label : option.html;
                     if (!(option.group && !this.group_search)) {
+                        // console.log('REGEX: ' + regex);
+                        // console.log('TEXT: ' + option.search_text);
                         option.search_match = this.search_string_match(option.search_text, regex);
+                        
+                        // console.log('search_match: ' + option.search_match);
+                        
                         if (option.search_match && !option.group) {
                             results += 1;
                         }
@@ -439,6 +445,7 @@
                     }
                 }
             }
+            // console.log('CASARAM: ' + results);
             this.result_clear_highlight();
             if (results < 1 && searchText.length) {
                 this.update_results_content("");
@@ -471,6 +478,7 @@
                     }
                 }
             }
+            return false;
         };
 
         AbstractChosen.prototype.choices_count = function () {
@@ -755,7 +763,7 @@
             this.form_field_jq.bind("chosen:clear.chosen", function (evt) {
                 _this.results_reset(evt);
             });
-            this.form_field_jq.bind("chosen:no_result.chosen", function (evt) {
+            this.form_field_jq.bind("chosen:ajax_no_result.chosen", function (evt) {
                 /**
                  * Este é um trigger que dispara o evento "no_results"
                  */
@@ -767,7 +775,6 @@
                 /**
                  * Este é um trigger que seleciona a busca, para AJAX
                  */
-                console.log('CHOSEN2: ATUALIZANDO TEXTO.');
                 _this.winnow_results(); // grifa a busca
             });
             this.search_field.bind('blur.chosen', function (evt) {

@@ -415,9 +415,9 @@
                         // console.log('REGEX: ' + regex);
                         // console.log('TEXT: ' + option.search_text);
                         option.search_match = this.search_string_match(option.search_text, regex);
-                        
+
                         // console.log('search_match: ' + option.search_match);
-                        
+
                         if (option.search_match && !option.group) {
                             results += 1;
                         }
@@ -599,11 +599,16 @@
         };
 
         AbstractChosen.browser_is_supported = function () {
-            if ("Microsoft Internet Explorer" === window.navigator.appName) {
+            if (window.navigator.appName === "Microsoft Internet Explorer") {
                 return document.documentMode >= 8;
             }
-            if (/iP(od|hone)/i.test(window.navigator.userAgent) || /IEMobile/i.test(window.navigator.userAgent) || /Windows Phone/i.test(window.navigator.userAgent) || /BlackBerry/i.test(window.navigator.userAgent) || /BB10/i.test(window.navigator.userAgent) || /Android.*Mobile/i.test(window.navigator.userAgent)) {
-                return false;
+            if (/iP(od|hone)/i.test(window.navigator.userAgent)) {
+                return true;
+            }
+            if (/Android/i.test(window.navigator.userAgent)) {
+                if (/Mobile/i.test(window.navigator.userAgent)) {
+                    return true;
+                }
             }
             return true;
         };
@@ -703,7 +708,7 @@
                 chosen: this
             });
         };
-        
+
 
         Chosen.prototype.register_observers = function () {
             var _this = this;
